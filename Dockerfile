@@ -35,4 +35,6 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN npm install
 RUN npm run production
 
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
+# Volume mounted on storage/ starts empty; recreate required dirs at boot
+CMD mkdir -p storage/app/public storage/app/uploads storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs \
+    && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
